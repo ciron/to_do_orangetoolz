@@ -20,6 +20,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/edit-todo/{id}', [TODOController::class, 'edit'])->name('edit.todo');
+Route::get('/delete-todo/{id}', [TODOController::class, 'destroy'])->name('delete.todo');
 Route::post('/store-todo',[TODOController::class,'store'])->name('store.todo');
+Route::post('/update-todo/{id}',[TODOController::class,'update'])->name('update.todo');
 
 

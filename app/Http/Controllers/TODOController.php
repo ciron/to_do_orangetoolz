@@ -9,7 +9,6 @@ class TODOController extends Controller
 {
 
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -21,7 +20,7 @@ class TODOController extends Controller
         $request->validate([
            'name'=>'required|unique:to_dos,name'
         ]);
-        $create = ToDo::create([
+        ToDo::create([
            'name'=>$request->name,
         ]);
         return back()->with('success','Created SuccessFully');
@@ -46,7 +45,8 @@ class TODOController extends Controller
      */
     public function edit($id)
     {
-        //
+        $todo = ToDo::find($id);
+        return view('todo.edit',compact('todo'));
     }
 
     /**
@@ -58,7 +58,13 @@ class TODOController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:to_dos,name,'.$id,
+        ]);
+        $update = ToDo::find($id)->update([
+            'name'=>$request->name,
+        ]);
+        return redirect()->route('home')->with('success','Updated SuccessFully');
     }
 
     /**
@@ -69,6 +75,7 @@ class TODOController extends Controller
      */
     public function destroy($id)
     {
-        //
+        ToDo::find($id)->delete();
+        return back()->with('success','Deleted SuccessFully');
     }
 }

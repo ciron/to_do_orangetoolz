@@ -25,6 +25,6 @@ class HomeController extends Controller
     public function index()
     {
         $todos = ToDo::latest()->get();
-        return view('home',compact('todos'));
+        return view('todo.home',compact('todos'));
     }
 }

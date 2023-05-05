@@ -36,7 +36,8 @@
                                 <td>{{ $todo->name }}</td>
                                 <td>Row 1 Data 1</td>
                                 <td>
-
+                                    <a class="btn btn-info" href="{{ route('edit.todo',$todo->id) }}">Edit</a>
+                                    <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{ route('delete.todo',$todo->id) }}">Delete</a>
                                 </td>
                             </tr>
                             @endforeach
