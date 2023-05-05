@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('To Do List') }}</div>
+                <div class="card-header">{{ __('Task List') }} Of {{ $todo->name }}</div>
                 <div class="text-end">
 
                     <!-- Button trigger modal -->
@@ -20,24 +20,28 @@
                             {{ session('success') }}
                         </div>
                     @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                         <table id="myTable" class="display">
                             <thead>
                             <tr>
                                 <th>S/N</th>
-                                <th>To Do Name</th>
-                                <th>Tasks</th>
+                                <th>Task Name</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($todos as $todo)
+                            @foreach($todo->tasks as $data)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $todo->name }}</td>
-                                <td><a href="{{ route('task.list',$todo->id) }}" class="btn btn-secondary">Tasks</a> </td>
+                                <td>{{ $data->name }}</td>
+
                                 <td>
-                                    <a class="btn btn-info" href="{{ route('edit.todo',$todo->id) }}">Edit</a>
-                                    <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{ route('delete.todo',$todo->id) }}">Delete</a>
+                                    <a class="btn btn-info" href="{{ route('edit.task',$data->id) }}">Edit</a>
+                                    <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{ route('delete.task',$data->id) }}">Delete</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -52,10 +56,11 @@
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-               <form action="{{ route('store.todo') }}" method="post" enctype="multipart/form-data">
+               <form action="{{ route('store.task') }}" method="post" enctype="multipart/form-data">
                    @csrf
+                   <input type="hidden" name="todo_id" value="{{ $todo->id }}">
                    <div class="modal-header">
-                       <h5 class="modal-title" id="exampleModalLabel">Add new To Do</h5>
+                       <h5 class="modal-title" id="exampleModalLabel">Add new task</h5>
                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                    </div>
                    <div class="modal-body">
